@@ -39,131 +39,13 @@ export function ProjectsPage() {
       impact:
         "Successfully landed 3 internship interviews and received positive feedback on the design and technical implementation.",
     },
-    {
-      id: "task-manager",
-      title: "Collaborative Task Manager",
-      category: "Full Stack",
-      status: "In Progress",
-      duration: "6 weeks",
-      team: "4 members",
-      description:
-        "A full-stack web application for team project management with real-time collaboration features, user authentication, and project analytics.",
-      challenge:
-        "Building a scalable real-time application that handles multiple users collaborating simultaneously while maintaining data consistency and good user experience.",
-      solution:
-        "Implemented a microservices architecture with Node.js backend, React frontend, and WebSocket connections for real-time updates. Used PostgreSQL for relational data and Redis for caching and session management.",
-      learnings: [
-        "Real-time application development with WebSockets",
-        "Database design for complex relationships",
-        "User authentication and authorization",
-        "API design and RESTful principles",
-        "Team collaboration and code review processes",
-        "Agile development methodology",
-      ],
-      technologies: [
-        "React",
-        "Node.js",
-        "Express",
-        "PostgreSQL",
-        "Socket.io",
-        "JWT",
-        "Docker",
-      ],
-      features: [
-        "Real-time task updates and notifications",
-        "User roles and permissions system",
-        "Project analytics and reporting",
-        "File upload and sharing",
-        "Mobile-responsive interface",
-        "Email notifications and reminders",
-      ],
-      githubUrl: "#",
-      liveUrl: "#",
-      impact:
-        "Currently being tested by 25+ beta users from our computer science program with positive feedback on usability and performance.",
-    },
-    {
-      id: "algorithm-visualizer",
-      title: "Algorithm Visualization Tool",
-      category: "Educational",
-      status: "Completed",
-      duration: "3 weeks",
-      team: "Solo",
-      description:
-        "An interactive web application that visualizes popular sorting and searching algorithms to help students understand algorithmic concepts through visual learning.",
-      challenge:
-        "Creating smooth, educational animations that clearly demonstrate algorithm execution while providing interactive controls and maintaining good performance.",
-      solution:
-        "Built with vanilla JavaScript and HTML5 Canvas for smooth animations. Implemented step-by-step execution controls, customizable data sets, and performance comparisons between different algorithms.",
-      learnings: [
-        "HTML5 Canvas API and animation techniques",
-        "Algorithm implementation and optimization",
-        "User interface design for educational tools",
-        "Performance optimization for smooth animations",
-        "Educational content design and user experience",
-      ],
-      technologies: ["JavaScript", "HTML5 Canvas", "CSS3", "Web APIs"],
-      features: [
-        "Interactive sorting algorithm visualizations",
-        "Step-by-step execution controls",
-        "Customizable array sizes and values",
-        "Performance metrics and comparisons",
-        "Educational explanations and pseudocode",
-        "Responsive design for various screen sizes",
-      ],
-      githubUrl: "#",
-      liveUrl: "#",
-      impact:
-        "Used by 100+ students in our Data Structures course and received recognition from the professor for its educational value.",
-    },
-    {
-      id: "weather-app",
-      title: "Smart Weather Dashboard",
-      category: "Mobile App",
-      status: "Completed",
-      duration: "4 weeks",
-      team: "Pair Programming",
-      description:
-        "A mobile-first weather application with location services, weather forecasts, and personalized recommendations based on weather conditions.",
-      challenge:
-        "Integrating multiple APIs, handling location permissions, and creating an intuitive mobile interface that works well across different devices and operating systems.",
-      solution:
-        "Used React Native for cross-platform development, integrated weather APIs for real-time data, and implemented local storage for offline capabilities and user preferences.",
-      learnings: [
-        "Mobile app development with React Native",
-        "API integration and data management",
-        "Location services and permissions handling",
-        "Offline functionality and data caching",
-        "Mobile UI/UX design principles",
-        "App store deployment process",
-      ],
-      technologies: [
-        "React Native",
-        "Expo",
-        "REST APIs",
-        "AsyncStorage",
-        "Geolocation",
-      ],
-      features: [
-        "Real-time weather data and forecasts",
-        "Location-based weather updates",
-        "Personalized clothing recommendations",
-        "Weather alerts and notifications",
-        "Offline mode with cached data",
-        "Customizable widgets and themes",
-      ],
-      githubUrl: "#",
-      liveUrl: "#",
-      impact:
-        "Downloaded 500+ times in the first month and maintained a 4.7-star rating on the app stores.",
-    },
   ];
 
   const stats = {
     totalProjects: projects.length,
     completedProjects: projects.filter((p) => p.status === "Completed").length,
     technologies: [...new Set(projects.flatMap((p) => p.technologies))].length,
-    totalImpact: "650+",
+    totalImpact: "0",
   };
 
   return (
