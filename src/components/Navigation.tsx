@@ -1,16 +1,15 @@
-import { Link, useLocation } from 'react-router-dom';
-import { cn } from './ui/utils';
-import { Button } from './ui/button';
-import { User, BarChart3, GraduationCap, FolderOpen } from 'lucide-react';
+import { Link, useLocation } from "react-router-dom";
+import { Button } from "./ui/button";
+import { User, BarChart3, GraduationCap, FolderOpen } from "lucide-react";
 
 export function Navigation() {
   const location = useLocation();
 
   const navItems = [
-    { href: '/', label: 'About', icon: User },
-    { href: '/leetcode', label: 'LeetCode Stats', icon: BarChart3 },
-    { href: '/classes', label: 'Classes', icon: GraduationCap },
-    { href: '/projects', label: 'Projects', icon: FolderOpen },
+    { href: "/", label: "About", icon: User },
+    { href: "/leetcode", label: "LeetCode Stats", icon: BarChart3 },
+    { href: "/classes", label: "Classes", icon: GraduationCap },
+    { href: "/projects", label: "Projects", icon: FolderOpen },
   ];
 
   return (
@@ -22,12 +21,12 @@ export function Navigation() {
               My Portfolio
             </Link>
           </div>
-          
+
           <div className="flex items-center space-x-2">
             {navItems.map((item) => {
               const Icon = item.icon;
               const isActive = location.pathname === item.href;
-              
+
               return (
                 <Button
                   key={item.href}

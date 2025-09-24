@@ -6,17 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "./ui/accordion";
-import { Progress } from "./ui/progress";
-import {
-  Calendar,
-  User,
-  BookOpen,
-  Trophy,
-  Code,
-  Database,
-  Cpu,
-  Globe,
-} from "lucide-react";
+import { Calendar, User, BookOpen, Code } from "lucide-react";
 
 export function ClassesPage() {
   const classes = [

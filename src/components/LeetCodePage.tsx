@@ -11,9 +11,6 @@ import {
   ResponsiveContainer,
   BarChart,
   Bar,
-  PieChart,
-  Pie,
-  Cell,
 } from "recharts";
 
 export function LeetCodePage() {
