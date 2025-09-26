@@ -18,26 +18,83 @@ export function ProjectsPage() {
       challenge:
         "Creating a professional, responsive design that effectively communicates my skills and experiences while maintaining good performance and accessibility.",
       solution:
-        "Used React with TypeScript for type safety, Tailwind CSS for responsive design, and implemented a clean component architecture. Added smooth animations and optimized for both desktop and mobile experiences.",
+        "Used React with TypeScript for type safety, Tailwind CSS for responsive design, and implemented a clean component architecture. Added smooth animations and optimized for both desktop and mobile experiences. For backend, I used Supabase for its easy-to-use Edge functions and its built-in postgresSQL database",
       learnings: [
-        "Advanced React patterns and component composition",
-        "Responsive design principles and mobile-first approach",
-        "Performance optimization techniques",
-        "SEO best practices for static sites",
-        "Design system creation and consistency",
+        "React with TypeScript for scalable web apps",
+        "Tailwind CSS for rapid, responsive styling",
+        "Data fetching and state management with Fetch API and hooks",
+        "Supabase Edge Functions and database integration",
+        "Scheduling tasks with cron jobs and automation",
+        "Data visualization with Recharts",
+        "Handling API errors, loading states, and CORS",
       ],
-      technologies: ["React", "TypeScript", "Tailwind CSS", "Vite", "Vercel"],
+      technologies: [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "Vite",
+        "Vercel",
+        "Supabase",
+        "Supabase Edge Functions",
+        "PostgreSQL",
+        "Recharts",
+        "Fetch API",
+      ],
       features: [
         "Responsive design across all devices",
         "Interactive navigation and smooth transitions",
         "Dynamic content loading",
-        "Accessibility compliant (WCAG 2.1)",
-        "Fast loading times and SEO optimized",
+        "Automatic Fetching of Leetcode Data",
       ],
-      githubUrl: "#",
-      liveUrl: "#",
+      githubUrl: "https://github.com/RickyLiu220/personal-website",
+      liveUrl: "",
       impact:
-        "Successfully landed 3 internship interviews and received positive feedback on the design and technical implementation.",
+        "This project centralizes and visualizes personal Leetcode practice, providing real-time insights into problem-solving habits. By automatically tracking progress, streaks, and difficulty-specific performance, it helps maintain consistency, identify areas for improvement, and make learning more structured. This website also displays my achievements in a clean manner.",
+    },
+    {
+      id: "datapipeline",
+      title: "Flight Price Tracker & Alert System",
+      category: "Cloud and Backend Systems",
+      status: "Ongoing",
+      duration: "3 weeks",
+      team: "2 People",
+      description:
+        "A flight price tracking system that fetches, processes, and stores flight data using AWS services, and notifies users via email when prices drop below their desired threshold.",
+      challenge:
+        "Efficiently fetching and processing real-time flight data at scale while ensuring timely notifications to users without overloading system resources.",
+      solution:
+        "Built a serverless architecture using AWS Lambda, SQS, and EC2 to efficiently ingest, process, and store flight data, combined with a REST API and AWS SES to deliver timely price alerts to users.",
+      learnings: [
+        "Serverless architecture with AWS Lambda",
+        "Queue-based data processing with SQS",
+        "Database design and ETL on EC2",
+        "REST API development",
+        "User notifications via AWS SES",
+        "Integrating third-party APIs",
+        "End-to-end full-stack application design",
+      ],
+      technologies: [
+        "AWS Lambda",
+        "AWS SQS",
+        "AWS EC2",
+        "AWS SES",
+        "PostgreSQL",
+        "REST API",
+        "Google Flights API",
+        "Node.js",
+        "TypeScript",
+      ],
+      features: [
+        "Real-time flight price tracking",
+        "User-defined price alerts via email",
+        "Automated data ingestion and cleaning pipeline",
+        "Scalable backend with SQS and EC2 workers",
+        "REST API connecting frontend and database",
+      ],
+      githubUrl: "https://github.com/RickyLiu220/flight-tracker",
+      liveUrl: "",
+      impact:
+        "Empowers users to save money on flights by providing timely notifications, while demonstrating a fully automated, scalable data pipeline integrating multiple AWS services.",
     },
   ];
 
@@ -236,6 +293,7 @@ export function ProjectsPage() {
                     size="sm"
                     variant="outline"
                     className="flex items-center space-x-2"
+                    onClick={() => window.open(project.githubUrl, "_blank")}
                   >
                     <Github className="h-4 w-4" />
                     <span>View Code</span>
@@ -260,8 +318,8 @@ export function ProjectsPage() {
         </CardHeader>
         <CardContent className="space-y-4">
           <p className="text-muted-foreground">
-            I'm always working on new projects and exploring emerging
-            technologies. Here are some areas I'm excited to dive into next:
+            I'm always working on new projects and exploring topics. Here are
+            some areas I'm excited to dive into next:
           </p>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
             <div className="p-4 border rounded-lg">
@@ -272,16 +330,10 @@ export function ProjectsPage() {
               </p>
             </div>
             <div className="p-4 border rounded-lg">
-              <h4 className="font-medium mb-2">Blockchain</h4>
+              <h4 className="font-medium mb-2">E-Commerce</h4>
               <p className="text-sm text-muted-foreground">
-                Creating a decentralized voting system for student organizations
-              </p>
-            </div>
-            <div className="p-4 border rounded-lg">
-              <h4 className="font-medium mb-2">IoT Development</h4>
-              <p className="text-sm text-muted-foreground">
-                Smart campus navigation system using sensors and mobile
-                integration
+                Create a E-Commerce website for my friend's startup that will
+                handle ~$10k transactions monthly.
               </p>
             </div>
           </div>

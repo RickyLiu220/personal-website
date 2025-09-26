@@ -9,8 +9,6 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-  BarChart,
-  Bar,
 } from "recharts";
 import { useState, useEffect } from "react";
 import { fetchRecentLeetcode } from "./utils/fetchRecentLC";
@@ -49,18 +47,18 @@ export function LeetCodePage() {
 
   // Mock data for demonstration
   const progressData = [
-    { month: "Jan", solved: 45, total: 2500 },
-    { month: "Feb", solved: 62, total: 2520 },
-    { month: "Mar", solved: 78, total: 2540 },
-    { month: "Apr", solved: 95, total: 2560 },
-    { month: "May", solved: 118, total: 2580 },
-    { month: "Jun", solved: 142, total: 2600 },
-    { month: "Jul", solved: 165, total: 2620 },
-    { month: "Aug", solved: 189, total: 2640 },
-    { month: "Sep", solved: 120, total: 2660 },
-    { month: "Oct", solved: 120, total: 2660 },
-    { month: "Nov", solved: 120, total: 2660 },
-    { month: "Dec", solved: 120, total: 2660 },
+    { month: "Jan", solved: 0, total: 2500 },
+    { month: "Feb", solved: 0, total: 2520 },
+    { month: "Mar", solved: 0, total: 2540 },
+    { month: "Apr", solved: 0, total: 2560 },
+    { month: "May", solved: 0, total: 2580 },
+    { month: "Jun", solved: 0, total: 2600 },
+    { month: "Jul", solved: 0, total: 2620 },
+    { month: "Aug", solved: 0, total: 2640 },
+    { month: "Sep", solved: 130, total: 2660 },
+    { month: "Oct", solved: 0, total: 2660 },
+    { month: "Nov", solved: 0, total: 2660 },
+    { month: "Dec", solved: 0, total: 2660 },
   ];
 
   const totalProblemsByDifficulty = {
@@ -68,15 +66,6 @@ export function LeetCodePage() {
     Medium: 1829,
     Hard: 823,
   };
-
-  const topicData = [
-    { topic: "Array", solved: 45 },
-    { topic: "String", solved: 32 },
-    { topic: "Dynamic Programming", solved: 28 },
-    { topic: "Tree", solved: 25 },
-    { topic: "Graph", solved: 18 },
-    { topic: "Linked List", solved: 15 },
-  ];
 
   const totalProblems = 3691;
 
@@ -220,20 +209,38 @@ export function LeetCodePage() {
         {/* Top Topics */}
         <Card>
           <CardHeader>
-            <CardTitle>Problems by Topic</CardTitle>
+            <CardTitle>Success Rate by Difficulty</CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={topicData} layout="horizontal">
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis type="number" />
-                  <YAxis dataKey="topic" type="category" width={120} />
-                  <Tooltip />
-                  <Bar dataKey="solved" fill="hsl(var(--primary))" />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
+          <CardContent className="space-y-4">
+            {lcStats &&
+              (["Easy", "Medium", "Hard"] as const).map((level) => {
+                const solved = lcStats.difficulty_accepted[level] ?? 0;
+                const total = lcStats.difficulty_attempted[level];
+                return (
+                  <div key={level} className="space-y-2">
+                    <div className="flex justify-between items-center">
+                      <span className="flex items-center space-x-2">
+                        <div
+                          className="w-3 h-3 rounded-full"
+                          style={{
+                            backgroundColor:
+                              level === "Easy"
+                                ? "#22c55e"
+                                : level === "Medium"
+                                ? "#f59e0b"
+                                : "#ef4444",
+                          }}
+                        />
+                        <span>{level}</span>
+                      </span>
+                      <span className="text-sm text-muted-foreground">
+                        {((solved / total) * 100).toFixed(2)}%
+                      </span>
+                    </div>
+                    <Progress value={(solved / total) * 100} className="h-2" />
+                  </div>
+                );
+              })}
           </CardContent>
         </Card>
       </div>

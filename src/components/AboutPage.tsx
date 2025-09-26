@@ -14,8 +14,8 @@ export function AboutPage() {
     },
     {
       icon: Coffee,
-      name: "",
-      description: "Exploring different brewing methods and coffee origins",
+      name: "Coffee",
+      description: "Exploring different local coffee shops",
     },
     {
       icon: Music,
@@ -31,7 +31,7 @@ export function AboutPage() {
     {
       icon: Gamepad2,
       name: "Gaming",
-      description: "Strategy games, RPGs, and competitive gaming",
+      description: "Strategy games, RPGs, and eSports",
     },
     {
       icon: Heart,
