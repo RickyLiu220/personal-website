@@ -30,8 +30,8 @@ export function LeetCodePage() {
   }, []);
   //Fetching latest LC data
   const [lcStats, setLcStats] = useState<LeetCodeStats | null>(null);
-  const [_statsLoading, setStatsLoading] = useState(true);
-  const [_statsError, setStatsError] = useState<string | null>(null);
+  const [statsLoading, setStatsLoading] = useState(true);
+  const [statsError, setStatsError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -78,9 +78,7 @@ export function LeetCodePage() {
     { topic: "Linked List", solved: 15 },
   ];
 
-  const totalSolved = 120;
-  const totalProblems = 2660;
-  const solveRate = Math.round((totalSolved / totalProblems) * 100);
+  const totalProblems = 3691;
 
   return (
     <div className="max-w-6xl mx-auto space-y-8">
@@ -98,14 +96,30 @@ export function LeetCodePage() {
             <CardTitle className="text-sm">Total Solved</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl">{totalSolved}</div>
-            <p className="text-xs text-muted-foreground">
-              out of {totalProblems} problems
-            </p>
-            <Progress value={solveRate} className="mt-3" />
-            <p className="text-xs text-muted-foreground mt-1">
-              {solveRate}% completion
-            </p>
+            {statsLoading ? (
+              <p>Loading...</p>
+            ) : statsError ? (
+              <p className="text-red-500">{statsError}</p>
+            ) : (
+              <>
+                <div className="text-2xl">{lcStats?.total_solved ?? 0}</div>
+                <p className="text-xs text-muted-foreground">
+                  out of {totalProblems} problems
+                </p>
+                <Progress
+                  value={Math.round(
+                    ((lcStats?.total_solved ?? 0) / totalProblems) * 100
+                  )}
+                  className="mt-3"
+                />
+                <p className="text-xs text-muted-foreground mt-1">
+                  {Math.round(
+                    ((lcStats?.total_solved ?? 0) / totalProblems) * 100
+                  )}
+                  % completion
+                </p>
+              </>
+            )}
           </CardContent>
         </Card>
 
@@ -114,7 +128,16 @@ export function LeetCodePage() {
             <CardTitle className="text-sm">Current Streak</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl">12 days</div>
+            {statsLoading ? (
+              <p>Loading...</p>
+            ) : statsError ? (
+              <p className="text-red-500">{statsError}</p>
+            ) : (
+              <div className="text-2xl">
+                {lcStats?.streak_days}{" "}
+                {lcStats?.streak_days === 1 ? "Day" : "Days"}
+              </div>
+            )}
             <p className="text-xs text-muted-foreground">Keep it up! 🔥</p>
           </CardContent>
         </Card>

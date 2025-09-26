@@ -1,6 +1,7 @@
 export interface LeetCodeStats {
   total_solved: number;
   solved_today: number;
+  streak_days: number;
   difficulty_accepted: Record<string, number>;
   difficulty_attempted: Record<string, number>;
 }
@@ -37,6 +38,6 @@ export async function fetchLCData(): Promise<LeetCodeStats> {
       Hard: data.difficulty_attempted.hard ?? 0,
     },
   };
-
+  console.log(normalizedData);
   return normalizedData;
 }
