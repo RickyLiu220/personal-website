@@ -12,8 +12,41 @@ import {
   BarChart,
   Bar,
 } from "recharts";
+import { useState, useEffect } from "react";
+import { fetchRecentLeetcode } from "./utils/fetchRecentLC";
+import { fetchLCData, LeetCodeStats } from "./utils/fetchLCData";
 
 export function LeetCodePage() {
+  //Finding recent submissions
+  const [recentSubmissions, setRecentSubmissions] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetchRecentLeetcode()
+      .then((data) => setRecentSubmissions(data))
+      .catch((err) => setError(err.message))
+      .finally(() => setLoading(false));
+  }, []);
+  //Fetching latest LC data
+  const [lcStats, setLcStats] = useState<LeetCodeStats | null>(null);
+  const [statsLoading, setStatsLoading] = useState(true);
+  const [statsError, setStatsError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const data = await fetchLCData(); // your fetch function with Authorization
+        setLcStats(data);
+      } catch (err: any) {
+        setStatsError(err.message || "Failed to fetch LeetCode stats");
+      } finally {
+        setStatsLoading(false);
+      }
+    };
+    fetchStats();
+  }, []);
+
   // Mock data for demonstration
   const progressData = [
     { month: "Jan", solved: 45, total: 2500 },
@@ -25,13 +58,16 @@ export function LeetCodePage() {
     { month: "Jul", solved: 165, total: 2620 },
     { month: "Aug", solved: 189, total: 2640 },
     { month: "Sep", solved: 120, total: 2660 },
+    { month: "Oct", solved: 120, total: 2660 },
+    { month: "Nov", solved: 120, total: 2660 },
+    { month: "Dec", solved: 120, total: 2660 },
   ];
 
-  const difficultyData = [
-    { name: "Easy", solved: 89, total: 750, color: "#22c55e" },
-    { name: "Medium", solved: 105, total: 1580, color: "#f59e0b" },
-    { name: "Hard", solved: 20, total: 330, color: "#ef4444" },
-  ];
+  const totalProblemsByDifficulty = {
+    Easy: 873,
+    Medium: 1829,
+    Hard: 823,
+  };
 
   const topicData = [
     { topic: "Array", solved: 45 },
@@ -40,39 +76,6 @@ export function LeetCodePage() {
     { topic: "Tree", solved: 25 },
     { topic: "Graph", solved: 18 },
     { topic: "Linked List", solved: 15 },
-  ];
-
-  const recentSubmissions = [
-    {
-      problem: "Two Sum",
-      difficulty: "Easy",
-      status: "Accepted",
-      time: "2 hours ago",
-    },
-    {
-      problem: "Longest Substring Without Repeating Characters",
-      difficulty: "Medium",
-      status: "Accepted",
-      time: "1 day ago",
-    },
-    {
-      problem: "Median of Two Sorted Arrays",
-      difficulty: "Hard",
-      status: "Time Limit Exceeded",
-      time: "2 days ago",
-    },
-    {
-      problem: "Add Two Numbers",
-      difficulty: "Medium",
-      status: "Accepted",
-      time: "3 days ago",
-    },
-    {
-      problem: "Palindromic Substrings",
-      difficulty: "Medium",
-      status: "Accepted",
-      time: "4 days ago",
-    },
   ];
 
   const totalSolved = 120;
@@ -160,29 +163,37 @@ export function LeetCodePage() {
             <CardTitle>Problems by Difficulty</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            {difficultyData.map((item) => (
-              <div key={item.name} className="space-y-2">
-                <div className="flex justify-between items-center">
-                  <span className="flex items-center space-x-2">
-                    <div
-                      className="w-3 h-3 rounded-full"
-                      style={{ backgroundColor: item.color }}
-                    />
-                    <span>{item.name}</span>
-                  </span>
-                  <span className="text-sm text-muted-foreground">
-                    {item.solved}/{item.total}
-                  </span>
-                </div>
-                <Progress
-                  value={(item.solved / item.total) * 100}
-                  className="h-2"
-                />
-              </div>
-            ))}
+            {lcStats &&
+              (["Easy", "Medium", "Hard"] as const).map((level) => {
+                const solved = lcStats.difficulty_accepted[level] ?? 0;
+                const total = totalProblemsByDifficulty[level];
+                return (
+                  <div key={level} className="space-y-2">
+                    <div className="flex justify-between items-center">
+                      <span className="flex items-center space-x-2">
+                        <div
+                          className="w-3 h-3 rounded-full"
+                          style={{
+                            backgroundColor:
+                              level === "Easy"
+                                ? "#22c55e"
+                                : level === "Medium"
+                                ? "#f59e0b"
+                                : "#ef4444",
+                          }}
+                        />
+                        <span>{level}</span>
+                      </span>
+                      <span className="text-sm text-muted-foreground">
+                        {solved}/{total}
+                      </span>
+                    </div>
+                    <Progress value={(solved / total) * 100} className="h-2" />
+                  </div>
+                );
+              })}
           </CardContent>
         </Card>
-
         {/* Top Topics */}
         <Card>
           <CardHeader>
@@ -210,47 +221,46 @@ export function LeetCodePage() {
           <CardTitle>Recent Submissions</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-3">
-            {recentSubmissions.map((submission, index) => (
-              <div
-                key={index}
-                className="flex items-center justify-between p-3 border rounded-lg"
-              >
-                <div className="flex-1">
-                  <div className="flex items-center space-x-3">
-                    <div>
-                      <p className="font-medium">{submission.problem}</p>
-                      <p className="text-sm text-muted-foreground">
-                        {submission.time}
-                      </p>
+          {loading && <p>Loading submissions...</p>}
+          {error && <p className="text-red-500">{error}</p>}
+
+          {!loading && !error && (
+            <div className="space-y-3">
+              {recentSubmissions.map((submission, index) => (
+                <div
+                  key={index}
+                  className="flex items-center justify-between p-3 border rounded-lg"
+                >
+                  <div className="flex-1">
+                    <div className="flex items-center space-x-3">
+                      <div>
+                        <p className="font-medium">
+                          {submission.title || submission.problem}
+                        </p>
+                        <p className="text-sm text-muted-foreground">
+                          {new Date(
+                            Number(submission.timestamp) * 1000
+                          ).toLocaleString()}
+                        </p>
+                      </div>
                     </div>
                   </div>
+                  <div className="flex items-center space-x-3">
+                    <Badge
+                      variant={
+                        submission.statusDisplay === "Accepted"
+                          ? "default"
+                          : "destructive"
+                      }
+                    >
+                      {submission.statusDisplay}
+                    </Badge>
+                    <Badge variant="secondary">{submission.langName}</Badge>
+                  </div>
                 </div>
-                <div className="flex items-center space-x-3">
-                  <Badge
-                    variant={
-                      submission.difficulty === "Easy"
-                        ? "default"
-                        : submission.difficulty === "Medium"
-                        ? "secondary"
-                        : "destructive"
-                    }
-                  >
-                    {submission.difficulty}
-                  </Badge>
-                  <Badge
-                    variant={
-                      submission.status === "Accepted"
-                        ? "default"
-                        : "destructive"
-                    }
-                  >
-                    {submission.status}
-                  </Badge>
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>
