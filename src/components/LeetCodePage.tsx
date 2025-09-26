@@ -30,8 +30,8 @@ export function LeetCodePage() {
   }, []);
   //Fetching latest LC data
   const [lcStats, setLcStats] = useState<LeetCodeStats | null>(null);
-  const [statsLoading, setStatsLoading] = useState(true);
-  const [statsError, setStatsError] = useState<string | null>(null);
+  const [_statsLoading, setStatsLoading] = useState(true);
+  const [_statsError, setStatsError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchStats = async () => {
