@@ -1,11 +1,17 @@
 // ./utils/fetchMonthly.tsx
 
 export interface MonthlyProgress {
+  month: string;
+  solved: number;
+}
+
+export interface MonthlyProgressResponse {
+  months: MonthlyProgress[];
   solvedThisMonth: number;
   changeFromLastMonth: number;
 }
 
-export async function fetchMonthlyProgress(): Promise<MonthlyProgress> {
+export async function fetchMonthlyProgress(): Promise<MonthlyProgressResponse> {
   try {
     const EDGE_FUNCTION_URL =
       "https://xiosafmpistqbnaaqbgv.supabase.co/functions/v1/fetchMonthly";
@@ -27,13 +33,17 @@ export async function fetchMonthlyProgress(): Promise<MonthlyProgress> {
     }
 
     const data = await response.json();
-
+    console.log(data);
     return {
+      months: (data.months ?? []).map((m: any) => ({
+        month: m.month_start.slice(0, 7),
+        solved: m.total_solved ?? 0,
+      })),
       solvedThisMonth: data.solvedThisMonth ?? 0,
       changeFromLastMonth: data.changeFromLastMonth ?? 0,
     };
   } catch (err) {
     console.error("Failed to fetch monthly progress:", err);
-    return { solvedThisMonth: 0, changeFromLastMonth: 0 };
+    return { months: [], solvedThisMonth: 0, changeFromLastMonth: 0 };
   }
 }

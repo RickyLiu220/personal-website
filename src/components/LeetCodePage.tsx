@@ -13,7 +13,28 @@ import {
 import { useState, useEffect } from "react";
 import { fetchRecentLeetcode } from "./utils/fetchRecentLC";
 import { fetchLCData, LeetCodeStats } from "./utils/fetchLCData";
-import { fetchMonthlyProgress, MonthlyProgress } from "./utils/fetchMonthly";
+import {
+  fetchMonthlyProgress,
+  MonthlyProgressResponse,
+} from "./utils/fetchMonthly";
+
+function getLast12Months(): string[] {
+  const months: string[] = [];
+  const today = new Date();
+  for (let i = 11; i >= 0; i--) {
+    const d = new Date(today.getFullYear(), today.getMonth() - i, 1);
+    months.push(
+      `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`
+    );
+  }
+  return months;
+}
+
+function formatMonthLabel(ym: string) {
+  const [year, month] = ym.split("-");
+  const date = new Date(Number(year), Number(month) - 1, 1);
+  return date.toLocaleString("default", { month: "short" });
+}
 
 export function LeetCodePage() {
   //Finding recent submissions
@@ -46,36 +67,31 @@ export function LeetCodePage() {
     fetchStats();
   }, []);
   //Fetching Monthly Data
-  const [monthlyProgress, setMonthlyProgress] = useState<MonthlyProgress>({
-    solvedThisMonth: 0,
-    changeFromLastMonth: 0,
-  });
-  const [monthlyProgressLoading, setMonthlyProgressLoading] = useState(true);
-  const [_monthlyProgressError, setMonthlyProgressError] = useState<
-    string | null
-  >(null);
+  const [monthlyStats, setMonthlyStats] =
+    useState<MonthlyProgressResponse | null>(null);
+  const [monthlyLoading, setMonthlyLoading] = useState(true);
+  const [monthlyError, setMonthlyError] = useState<string | null>(null);
 
   useEffect(() => {
     fetchMonthlyProgress()
-      .then((data) => setMonthlyProgress(data))
-      .catch((err) => setMonthlyProgressError(err.message))
-      .finally(() => setMonthlyProgressLoading(false));
+      .then((data) => setMonthlyStats(data))
+      .catch((err) => setMonthlyError(err.message))
+      .finally(() => setMonthlyLoading(false));
   }, []);
   // Mock data for demonstration
-  const progressData = [
-    { month: "Jan", solved: 0, total: 2500 },
-    { month: "Feb", solved: 0, total: 2520 },
-    { month: "Mar", solved: 0, total: 2540 },
-    { month: "Apr", solved: 0, total: 2560 },
-    { month: "May", solved: 0, total: 2580 },
-    { month: "Jun", solved: 0, total: 2600 },
-    { month: "Jul", solved: 0, total: 2620 },
-    { month: "Aug", solved: 0, total: 2640 },
-    { month: "Sep", solved: 130, total: 2660 },
-    { month: "Oct", solved: 0, total: 2660 },
-    { month: "Nov", solved: 0, total: 2660 },
-    { month: "Dec", solved: 0, total: 2660 },
-  ];
+
+  const progressData = getLast12Months().map((month) => {
+    const found = monthlyStats?.months.find((m) => {
+      // Convert "2025-09-01" -> "2025-09"
+      const normalized = m.month.slice(0, 7);
+      return normalized === month;
+    });
+
+    return {
+      month,
+      solved: found ? found.solved : 0,
+    };
+  });
 
   const totalProblemsByDifficulty = {
     Easy: 873,
@@ -152,18 +168,23 @@ export function LeetCodePage() {
             <CardTitle className="text-sm">This Month</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl">
-              {monthlyProgressLoading
-                ? "..."
-                : `${monthlyProgress.solvedThisMonth} problems`}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              {monthlyProgressLoading
-                ? ""
-                : `${monthlyProgress.changeFromLastMonth >= 0 ? "+" : ""}${
-                    monthlyProgress.changeFromLastMonth
-                  } from last month`}
-            </p>
+            {monthlyLoading ? (
+              <div className="text-2xl">Loading...</div>
+            ) : monthlyError ? (
+              <p className="text-xs text-red-500">{monthlyError}</p>
+            ) : monthlyStats ? (
+              <>
+                <div className="text-2xl">
+                  {monthlyStats.solvedThisMonth} problems
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  {monthlyStats.changeFromLastMonth >= 0 ? "+" : ""}
+                  {monthlyStats.changeFromLastMonth} from last month
+                </p>
+              </>
+            ) : (
+              <p className="text-xs">No data available</p>
+            )}
           </CardContent>
         </Card>
       </div>
@@ -175,21 +196,32 @@ export function LeetCodePage() {
         </CardHeader>
         <CardContent>
           <div className="h-80">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={progressData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="month" />
-                <YAxis />
-                <Tooltip />
-                <Line
-                  type="monotone"
-                  dataKey="solved"
-                  stroke="hsl(var(--primary))"
-                  strokeWidth={2}
-                  dot={{ fill: "hsl(var(--primary))" }}
-                />
-              </LineChart>
-            </ResponsiveContainer>
+            {monthlyLoading ? (
+              <p>Loading...</p>
+            ) : monthlyError ? (
+              <p className="text-red-500">{monthlyError}</p>
+            ) : (
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart
+                  data={progressData.map((d) => ({
+                    ...d,
+                    month: formatMonthLabel(d.month),
+                  }))}
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="month" />
+                  <YAxis />
+                  <Tooltip />
+                  <Line
+                    type="monotone"
+                    dataKey="solved"
+                    stroke="hsl(var(--primary))"
+                    strokeWidth={2}
+                    dot={{ fill: "hsl(var(--primary))" }}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            )}
           </div>
         </CardContent>
       </Card>

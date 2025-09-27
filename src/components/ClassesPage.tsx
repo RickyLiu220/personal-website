@@ -53,7 +53,7 @@ export function ClassesPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl">31</div>
-            <p className="text-xs text-muted-foreground">+ 1 in progress</p>
+            <p className="text-xs text-muted-foreground">+ 4 in progress</p>
           </CardContent>
         </Card>
 
