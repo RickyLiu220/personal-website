@@ -11,12 +11,12 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { useState, useEffect } from "react";
-import { fetchRecentLeetcode } from "./utils/fetchRecentLC";
-import { fetchLCData, LeetCodeStats } from "./utils/fetchLCData";
+import { fetchRecentLeetcode } from "../utils/fetchRecentLC";
+import { fetchLCData, LeetCodeStats } from "../utils/fetchLCData";
 import {
   fetchMonthlyProgress,
   MonthlyProgressResponse,
-} from "./utils/fetchMonthly";
+} from "../utils/fetchMonthly";
 
 function getLast12Months(): string[] {
   const months: string[] = [];
