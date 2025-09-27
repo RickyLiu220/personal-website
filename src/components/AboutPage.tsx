@@ -1,10 +1,52 @@
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
-import { Heart, Code, Coffee, Music, BookOpen, Gamepad2 } from "lucide-react";
+import {
+  Heart,
+  Code,
+  Coffee,
+  Music,
+  BookOpen,
+  Gamepad2,
+  Mail,
+  Phone,
+  Linkedin,
+  Github,
+  ExternalLink,
+} from "lucide-react";
 import pfp from "../assets/pfp.webp";
 
 export function AboutPage() {
+  const contactInfo = [
+    {
+      icon: Mail,
+      label: "Email",
+      value: "rliu437@gatech.edu",
+      href: "mailto:rliu437@gatech.edu",
+      display: "rliu437@gatech.edu",
+    },
+    {
+      icon: Phone,
+      label: "Phone",
+      value: "+1 (706) 363-5888",
+      href: "tel:+17063635888",
+      display: "+1 (706) 363-5888",
+    },
+    {
+      icon: Linkedin,
+      label: "LinkedIn",
+      value: "linkedin.com/in/ricky-liu-178b82297",
+      href: "https://www.linkedin.com/in/ricky-liu-178b82297",
+      display: "linkedin.com/in/ricky-liu-178b82297",
+    },
+    {
+      icon: Github,
+      label: "GitHub",
+      value: "github.com/RickyLiu220",
+      href: "https://github.com/RickyLiu220",
+      display: "github.com/RickyLiu220",
+    },
+  ];
   const interests = [
     {
       icon: Code,
@@ -162,17 +204,51 @@ export function AboutPage() {
       </div>
 
       {/* Contact Info */}
+
       <Card>
         <CardHeader>
           <CardTitle>Let's Connect</CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="space-y-6">
           <p className="text-muted-foreground">
             I'm always excited to connect with fellow developers, discuss new
             technologies, or explore potential collaboration opportunities. Feel
-            free to reach out through any of my social platforms or check out my
-            projects and coding journey throughout this portfolio.
+            free to reach out through any of the following channels:
           </p>
+
+          <div className="grid sm:grid-cols-2 gap-4">
+            {contactInfo.map((contact) => {
+              const Icon = contact.icon;
+              return (
+                <a
+                  key={contact.label}
+                  href={contact.href}
+                  target={
+                    contact.href.startsWith("http") ? "_blank" : undefined
+                  }
+                  rel={
+                    contact.href.startsWith("http")
+                      ? "noopener noreferrer"
+                      : undefined
+                  }
+                  className="flex items-center space-x-3 p-3 rounded-lg border border-border hover:bg-accent hover:text-accent-foreground transition-colors group"
+                >
+                  <div className="p-2 bg-primary/10 rounded-lg group-hover:bg-primary/20 transition-colors">
+                    <Icon className="h-5 w-5 text-primary" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="text-sm text-muted-foreground">
+                      {contact.label}
+                    </div>
+                    <div className="truncate">{contact.display}</div>
+                  </div>
+                  {contact.href.startsWith("http") && (
+                    <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
+                  )}
+                </a>
+              );
+            })}
+          </div>
         </CardContent>
       </Card>
     </div>
