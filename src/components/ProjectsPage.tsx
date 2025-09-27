@@ -3,109 +3,14 @@ import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { Github, ExternalLink, Calendar, Users } from "lucide-react";
+import { projects } from "./data/projectsData";
 
 export function ProjectsPage() {
-  const projects = [
-    {
-      id: "portfolio",
-      title: "Personal Portfolio Website",
-      category: "Web Development",
-      status: "Completed",
-      duration: "2 weeks",
-      team: "Solo",
-      description:
-        "A responsive portfolio website showcasing my projects, skills, and academic journey. Built with modern web technologies and deployed on Vercel.",
-      challenge:
-        "Creating a professional, responsive design that effectively communicates my skills and experiences while maintaining good performance and accessibility.",
-      solution:
-        "Used React with TypeScript for type safety, Tailwind CSS for responsive design, and implemented a clean component architecture. Added smooth animations and optimized for both desktop and mobile experiences. For backend, I used Supabase for its easy-to-use Edge functions and its built-in postgresSQL database",
-      learnings: [
-        "React with TypeScript for scalable web apps",
-        "Tailwind CSS for rapid, responsive styling",
-        "Data fetching and state management with Fetch API and hooks",
-        "Supabase Edge Functions and database integration",
-        "Scheduling tasks with cron jobs and automation",
-        "Data visualization with Recharts",
-        "Handling API errors, loading states, and CORS",
-      ],
-      technologies: [
-        "React",
-        "TypeScript",
-        "Tailwind CSS",
-        "Vite",
-        "Vercel",
-        "Supabase",
-        "Supabase Edge Functions",
-        "PostgreSQL",
-        "Recharts",
-        "Fetch API",
-      ],
-      features: [
-        "Responsive design across all devices",
-        "Interactive navigation and smooth transitions",
-        "Dynamic content loading",
-        "Automatic Fetching of Leetcode Data",
-      ],
-      githubUrl: "https://github.com/RickyLiu220/personal-website",
-      liveUrl: "",
-      impact:
-        "This project centralizes and visualizes personal Leetcode practice, providing real-time insights into problem-solving habits. By automatically tracking progress, streaks, and difficulty-specific performance, it helps maintain consistency, identify areas for improvement, and make learning more structured. This website also displays my achievements in a clean manner.",
-    },
-    {
-      id: "datapipeline",
-      title: "Flight Price Tracker & Alert System",
-      category: "Cloud and Backend Systems",
-      status: "Ongoing",
-      duration: "3 weeks",
-      team: "2 People",
-      description:
-        "A flight price tracking system that fetches, processes, and stores flight data using AWS services, and notifies users via email when prices drop below their desired threshold.",
-      challenge:
-        "Efficiently fetching and processing real-time flight data at scale while ensuring timely notifications to users without overloading system resources.",
-      solution:
-        "Built a serverless architecture using AWS Lambda, SQS, and EC2 to efficiently ingest, process, and store flight data, combined with a REST API and AWS SES to deliver timely price alerts to users.",
-      learnings: [
-        "Serverless architecture with AWS Lambda",
-        "Queue-based data processing with SQS",
-        "Database design and ETL on EC2",
-        "REST API development",
-        "User notifications via AWS SES",
-        "Integrating third-party APIs",
-        "End-to-end full-stack application design",
-      ],
-      technologies: [
-        "AWS Lambda",
-        "AWS SQS",
-        "AWS EC2",
-        "AWS SES",
-        "PostgreSQL",
-        "REST API",
-        "Google Flights API",
-        "Node.js",
-        "TypeScript",
-        "SpringBoot",
-        "Java",
-        "Python",
-      ],
-      features: [
-        "Real-time flight price tracking",
-        "User-defined price alerts via email",
-        "Automated data ingestion and cleaning pipeline",
-        "Scalable backend with SQS and EC2 workers",
-        "REST API connecting frontend and database",
-      ],
-      githubUrl: "https://github.com/RickyLiu220/flight-tracker",
-      liveUrl: "",
-      impact:
-        "Empowers users to save money on flights by providing timely notifications, while demonstrating a fully automated, scalable data pipeline integrating multiple AWS services.",
-    },
-  ];
-
   const stats = {
     totalProjects: projects.length,
     completedProjects: projects.filter((p) => p.status === "Completed").length,
     technologies: [...new Set(projects.flatMap((p) => p.technologies))].length,
-    totalImpact: "0",
+    totalImpact: "10",
   };
 
   return (
@@ -212,37 +117,45 @@ export function ProjectsPage() {
                   </TabsList>
 
                   <TabsContent value="overview" className="space-y-4">
-                    <div>
-                      <h4 className="font-medium mb-2">Key Features</h4>
-                      <ul className="space-y-1">
-                        {project.features.slice(0, 4).map((feature, index) => (
-                          <li
-                            key={index}
-                            className="flex items-start space-x-2"
-                          >
-                            <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2 flex-shrink-0" />
-                            <span className="text-sm text-muted-foreground">
-                              {feature}
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    <div>
-                      <h4 className="font-medium mb-2">Technologies Used</h4>
-                      <div className="flex flex-wrap gap-1">
-                        {project.technologies.map((tech, index) => (
-                          <Badge
-                            key={index}
-                            variant="outline"
-                            className="text-xs"
-                          >
-                            {tech}
-                          </Badge>
-                        ))}
+                    {project.features && project.features.length > 0 && (
+                      <div>
+                        <h4 className="font-medium mb-2">Key Features</h4>
+                        <ul className="space-y-1">
+                          {project.features
+                            .slice(0, 4)
+                            .map((feature, index) => (
+                              <li
+                                key={index}
+                                className="flex items-start space-x-2"
+                              >
+                                <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2 flex-shrink-0" />
+                                <span className="text-sm text-muted-foreground">
+                                  {feature}
+                                </span>
+                              </li>
+                            ))}
+                        </ul>
                       </div>
-                    </div>
+                    )}
+                    {project.technologies &&
+                      project.technologies.length > 0 && (
+                        <div>
+                          <h4 className="font-medium mb-2">
+                            Technologies Used
+                          </h4>
+                          <div className="flex flex-wrap gap-1">
+                            {project.technologies.map((tech, index) => (
+                              <Badge
+                                key={index}
+                                variant="outline"
+                                className="text-xs"
+                              >
+                                {tech}
+                              </Badge>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                   </TabsContent>
 
                   <TabsContent value="challenge" className="space-y-4">
@@ -261,24 +174,26 @@ export function ProjectsPage() {
                   </TabsContent>
 
                   <TabsContent value="learning" className="space-y-4">
-                    <div>
-                      <h4 className="font-medium mb-2">What I Learned</h4>
-                      <ul className="space-y-1">
-                        {project.learnings
-                          .slice(0, 5)
-                          .map((learning, index) => (
-                            <li
-                              key={index}
-                              className="flex items-start space-x-2"
-                            >
-                              <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2 flex-shrink-0" />
-                              <span className="text-sm text-muted-foreground">
-                                {learning}
-                              </span>
-                            </li>
-                          ))}
-                      </ul>
-                    </div>
+                    {project.learnings && project.learnings.length > 0 && (
+                      <div>
+                        <h4 className="font-medium mb-2">What I Learned</h4>
+                        <ul className="space-y-1">
+                          {project.learnings
+                            .slice(0, 5)
+                            .map((learning, index) => (
+                              <li
+                                key={index}
+                                className="flex items-start space-x-2"
+                              >
+                                <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2 flex-shrink-0" />
+                                <span className="text-sm text-muted-foreground">
+                                  {learning}
+                                </span>
+                              </li>
+                            ))}
+                        </ul>
+                      </div>
+                    )}
                   </TabsContent>
 
                   <TabsContent value="impact" className="space-y-4">
@@ -292,15 +207,17 @@ export function ProjectsPage() {
                 </Tabs>
 
                 <div className="flex space-x-3 pt-4">
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="flex items-center space-x-2"
-                    onClick={() => window.open(project.githubUrl, "_blank")}
-                  >
-                    <Github className="h-4 w-4" />
-                    <span>View Code</span>
-                  </Button>
+                  {project.githubUrl && (
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="flex items-center space-x-2"
+                      onClick={() => window.open(project.githubUrl, "_blank")}
+                    >
+                      <Github className="h-4 w-4" />
+                      <span>View Code</span>
+                    </Button>
+                  )}
                   {project.liveUrl && (
                     <Button size="sm" className="flex items-center space-x-2">
                       <ExternalLink className="h-4 w-4" />

@@ -6,36 +6,10 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "./ui/accordion";
-import { Calendar, User, BookOpen, Code } from "lucide-react";
+import { Calendar, User, BookOpen } from "lucide-react";
+import { classes } from "./data/classesData";
 
 export function ClassesPage() {
-  const classes = [
-    {
-      id: "cs1331",
-      title: "Intro to Object Oriented Programming",
-      semester: "Fall 2023",
-      professor: "Prof. Richard Landry",
-      grade: "A",
-      credits: 3,
-      icon: Code,
-      description:
-        "This was the first in depth class that I took on Java, which was the object oriented language chosen for this class",
-      highlights: [
-        "Learned Java basics focusing on inheritance",
-        "Understood basic algorithms and data structures",
-      ],
-      projects: [
-        "Text-based Calculator",
-        "Number Guessing Game",
-        "Simple File Manager",
-        "Basic Inventory System",
-      ],
-      keyLearnings:
-        "This class taught me that programming is not just about writing code, but about breaking down complex problems into manageable pieces. The logical thinking skills I developed here became the foundation for all my future coursework.",
-      skills: ["Python", "Problem Solving", "Debugging", "Algorithm Design"],
-    },
-  ];
-
   return (
     <div className="max-w-4xl mx-auto space-y-8">
       <div className="text-center space-y-2">
@@ -145,37 +119,41 @@ export function ClassesPage() {
                     </div>
 
                     {/* Key Highlights */}
-                    <div>
-                      <h4 className="font-medium mb-3">Key Highlights</h4>
-                      <ul className="space-y-2">
-                        {course.highlights.map((highlight, index) => (
-                          <li
-                            key={index}
-                            className="flex items-start space-x-2"
-                          >
-                            <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2 flex-shrink-0" />
-                            <span className="text-sm text-muted-foreground">
-                              {highlight}
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                    {course.highlights && course.highlights.length > 0 && (
+                      <div>
+                        <h4 className="font-medium mb-3">Key Highlights</h4>
+                        <ul className="space-y-2">
+                          {course.highlights.map((highlight, index) => (
+                            <li
+                              key={index}
+                              className="flex items-start space-x-2"
+                            >
+                              <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2 flex-shrink-0" />
+                              <span className="text-sm text-muted-foreground">
+                                {highlight}
+                              </span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
 
                     {/* Projects */}
-                    <div>
-                      <h4 className="font-medium mb-3">Class Projects</h4>
-                      <div className="grid sm:grid-cols-2 gap-2">
-                        {course.projects.map((project, index) => (
-                          <div
-                            key={index}
-                            className="p-3 border rounded-lg overflow-hidden"
-                          >
-                            <p className="text-sm">{project}</p>
-                          </div>
-                        ))}
+                    {course.projects && course.projects.length > 0 && (
+                      <div>
+                        <h4 className="font-medium mb-3">Class Projects</h4>
+                        <div className="grid sm:grid-cols-2 gap-2">
+                          {course.projects.map((project, index) => (
+                            <div
+                              key={index}
+                              className="p-3 border rounded-lg overflow-hidden"
+                            >
+                              <p className="text-sm">{project}</p>
+                            </div>
+                          ))}
+                        </div>
                       </div>
-                    </div>
+                    )}
 
                     {/* Key Learnings */}
                     <div>
@@ -188,16 +166,18 @@ export function ClassesPage() {
                     </div>
 
                     {/* Skills Gained */}
-                    <div>
-                      <h4 className="font-medium mb-3">Skills Developed</h4>
-                      <div className="flex flex-wrap gap-2">
-                        {course.skills.map((skill, index) => (
-                          <Badge key={index} variant="outline">
-                            {skill}
-                          </Badge>
-                        ))}
+                    {course.skills && course.skills.length > 0 && (
+                      <div>
+                        <h4 className="font-medium mb-3">Skills Developed</h4>
+                        <div className="flex flex-wrap gap-2">
+                          {course.skills.map((skill, index) => (
+                            <Badge key={index} variant="outline">
+                              {skill}
+                            </Badge>
+                          ))}
+                        </div>
                       </div>
-                    </div>
+                    )}
                   </div>
                 </AccordionContent>
               </AccordionItem>
