@@ -83,6 +83,9 @@ export function ProjectsPage() {
         "Google Flights API",
         "Node.js",
         "TypeScript",
+        "SpringBoot",
+        "Java",
+        "Python",
       ],
       features: [
         "Real-time flight price tracking",
