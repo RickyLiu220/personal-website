@@ -10,19 +10,17 @@ export interface MonthlyProgressResponse {
   solvedThisMonth: number;
   changeFromLastMonth: number;
 }
+const projID = import.meta.env.VITE_EDGE_FUNCTION_URL_MONTHLY;
+const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY_MONTHLY;
+const EDGE_FUNCTION_URL = `https://${projID}.supabase.co/functions/v1/fetchMonthly`;
 
 export async function fetchMonthlyProgress(): Promise<MonthlyProgressResponse> {
   try {
-    const EDGE_FUNCTION_URL =
-      "https://xiosafmpistqbnaaqbgv.supabase.co/functions/v1/fetchMonthly";
-    const SUPABASE_ANON_KEY =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhpb3NhZm1waXN0cWJuYWFxYmd2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg4MjYxNzksImV4cCI6MjA3NDQwMjE3OX0.DlUalHLhqkoe7FTQwHcXSAWmNV9uVHk3xW8-hOprPjo";
-
     const response = await fetch(EDGE_FUNCTION_URL, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+        Authorization: `Bearer ${anonKey}`,
       },
     });
 

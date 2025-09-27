@@ -52,33 +52,36 @@ export function AboutPage() {
       icon: Code,
       name: "Programming",
       description:
-        "Building software programs that streamline processes in my life",
+        "I've always believed that Software is a tool that too few know how to leverage. I see how much better my life can be with software, and I strive to make projects that I can use.",
     },
     {
       icon: Coffee,
       name: "Coffee",
-      description: "Exploring different local coffee shops",
+      description:
+        "I love coffee. I really love one coffee shop nearby called Urban Grind. I'm always open to try new coffee recipes if you have any suggestions.",
     },
     {
       icon: Music,
       name: "Music",
       description:
-        "Listening to various artists across different genres. (I reccomend checking out EDEN)",
+        "Listening to various artists across different genres. Though I tend to like softer songs when I'm working (I reccomend checking out EDEN). However, if I'm working out, I would definitely opt for louder music.",
     },
     {
       icon: BookOpen,
       name: "Reading",
-      description: "Technical books, sci-fi novels, and philosophy",
+      description:
+        "I love Sci-fi/Fantasy novels. They gives you an escape from the stress of life in a way that a TV show just can't.",
     },
     {
       icon: Gamepad2,
       name: "Gaming",
-      description: "Strategy games, RPGs, and eSports",
+      description:
+        "Strategy/Coop games like Unrailed! Great for making friends and building teamwork skills",
     },
     {
       icon: Heart,
-      name: "Fitness",
-      description: "Running, weightlifting, and staying active",
+      name: "Gym",
+      description: "Running, weightlifting, and badminton",
     },
   ];
 

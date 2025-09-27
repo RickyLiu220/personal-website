@@ -5,18 +5,17 @@ export interface LeetCodeStats {
   difficulty_accepted: Record<string, number>;
   difficulty_attempted: Record<string, number>;
 }
+const projID = import.meta.env.VITE_EDGE_FUNCTION_URL_MONTHLY;
+const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY_MONTHLY;
+const EDGE_FUNCTION_URL = `https://${projID}.supabase.co/functions/v1/fetchLCData`;
 
 export async function fetchLCData(): Promise<LeetCodeStats> {
-  const res = await fetch(
-    "https://xiosafmpistqbnaaqbgv.supabase.co/functions/v1/fetchLCData",
-    {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhpb3NhZm1waXN0cWJuYWFxYmd2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg4MjYxNzksImV4cCI6MjA3NDQwMjE3OX0.DlUalHLhqkoe7FTQwHcXSAWmNV9uVHk3xW8-hOprPjo",
-      },
-    }
-  );
+  const res = await fetch(EDGE_FUNCTION_URL, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${anonKey}`,
+    },
+  });
 
   if (!res.ok) {
     throw new Error("Failed to fetch LeetCode stats");
