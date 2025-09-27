@@ -13,6 +13,7 @@ import {
 import { useState, useEffect } from "react";
 import { fetchRecentLeetcode } from "./utils/fetchRecentLC";
 import { fetchLCData, LeetCodeStats } from "./utils/fetchLCData";
+import { fetchMonthlyProgress, MonthlyProgress } from "./utils/fetchMonthly";
 
 export function LeetCodePage() {
   //Finding recent submissions
@@ -44,7 +45,22 @@ export function LeetCodePage() {
     };
     fetchStats();
   }, []);
+  //Fetching Monthly Data
+  const [monthlyProgress, setMonthlyProgress] = useState<MonthlyProgress>({
+    solvedThisMonth: 0,
+    changeFromLastMonth: 0,
+  });
+  const [monthlyProgressLoading, setMonthlyProgressLoading] = useState(true);
+  const [_monthlyProgressError, setMonthlyProgressError] = useState<
+    string | null
+  >(null);
 
+  useEffect(() => {
+    fetchMonthlyProgress()
+      .then((data) => setMonthlyProgress(data))
+      .catch((err) => setMonthlyProgressError(err.message))
+      .finally(() => setMonthlyProgressLoading(false));
+  }, []);
   // Mock data for demonstration
   const progressData = [
     { month: "Jan", solved: 0, total: 2500 },
@@ -136,8 +152,18 @@ export function LeetCodePage() {
             <CardTitle className="text-sm">This Month</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl">25 problems</div>
-            <p className="text-xs text-muted-foreground">+8 from last month</p>
+            <div className="text-2xl">
+              {monthlyProgressLoading
+                ? "..."
+                : `${monthlyProgress.solvedThisMonth} problems`}
+            </div>
+            <p className="text-xs text-muted-foreground">
+              {monthlyProgressLoading
+                ? ""
+                : `${monthlyProgress.changeFromLastMonth >= 0 ? "+" : ""}${
+                    monthlyProgress.changeFromLastMonth
+                  } from last month`}
+            </p>
           </CardContent>
         </Card>
       </div>
