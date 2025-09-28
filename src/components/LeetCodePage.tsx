@@ -165,7 +165,9 @@ export function LeetCodePage() {
 
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm">This Month</CardTitle>
+            <CardTitle className="text-sm">
+              Solved at Beginning of Month
+            </CardTitle>
           </CardHeader>
           <CardContent>
             {monthlyLoading ? (
